@@ -1,11 +1,12 @@
 import React from "react";
-import Layout from "./Layout";
-import CustomNavbar from "../components/Layout/Navbar";
-import AddSectorForm from "../components/Layout/AddSectorForm";
+import Layout from "../components/Layout/Layout";
+import Nav from "../components/Layout/Nav";
+import AddSectorForm from "../components/Layout/AddSector";
+
 const AddSector = () => {
   return (
     <Layout>
-      <CustomNavbar />
+      <Nav />
       <AddSectorForm />
     </Layout>
   );

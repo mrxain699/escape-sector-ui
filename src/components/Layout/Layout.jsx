@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { Container } from "react-bootstrap";
-import { AuthContext } from "../api/Auth";
+import { AuthContext } from "../../api/Auth";
 const Layout = ({ children }) => {
   const { getLoggedInUser, loggedInUser } = useContext(AuthContext);
   useEffect(() => {

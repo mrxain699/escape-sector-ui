@@ -4,6 +4,7 @@ export const SectorContext = createContext();
 const Sector = ({ children }) => {
   const [alert, setAlert] = useState(null);
   const [officialSectors, setOfficialSectors] = useState([]);
+  const [sectorTasks, setSectorTasks] = useState([]);
   const add_sector = async (data) => {
     try {
       const response = await axios.post(
@@ -13,10 +14,8 @@ const Sector = ({ children }) => {
         }
       );
       if (response) {
-        setAlert({
-          variant: response.data.status,
-          message: response.data.message,
-        });
+        setAlert(response.data);
+        setTimeout(() => setAlert(null), 3000);
       }
     } catch (error) {
       console.log(error);
@@ -36,7 +35,44 @@ const Sector = ({ children }) => {
     }
   };
 
-  const value = { add_sector, alert, officialSectors, getOfficialSector };
+  const getSectorTasks = async (sector_id) => {
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/tasks/${sector_id}`
+      );
+      if (response.data.status === "success") {
+        setSectorTasks(response.data.sector_tasks);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const deleteSector = async (sector_id) => {
+    try {
+      const response = await axios.delete(
+        `${import.meta.env.VITE_API_URL}/delete-sector/${sector_id}`
+      );
+      if (response.data.status === "success") {
+        console.log(response.data.status);
+        setAlert(response.data);
+        setTimeout(() => setAlert(null), 3000);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const value = {
+    add_sector,
+    alert,
+    officialSectors,
+    getOfficialSector,
+    getSectorTasks,
+    sectorTasks,
+    deleteSector,
+    setAlert,
+  };
   return (
     <SectorContext.Provider value={value}>{children}</SectorContext.Provider>
   );

@@ -10,7 +10,7 @@ import {
 } from "react-bootstrap";
 import InputField from "../Form/InputField";
 import Feedback from "../Form/Feedback";
-import AddTaskForm from "./AddTaskForm";
+import AddTask from "./AddTask";
 import { SectorContext } from "../../api/Sector";
 const INITIAL_FIELDS = {
   title: "",
@@ -205,7 +205,7 @@ const AddSectorForm = () => {
       )}
 
       {displayTaskForm && (
-        <AddTaskForm
+        <AddTask
           sectorData={formData}
           handleToggle={toggleSectorForm}
           reset={reset}

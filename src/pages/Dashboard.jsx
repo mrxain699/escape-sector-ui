@@ -1,13 +1,13 @@
 import React from "react";
-import CustomNavbar from "../components/Layout/Navbar";
-import CustomCard from "../components/Layout/Card";
-import Layout from "./Layout";
+import Nav from "../components/Layout/Nav";
+import Sectors from "../components/Layout/Sectors";
+import Layout from "../components/Layout/Layout";
 
 const Dashboard = () => {
   return (
     <Layout>
-      <CustomNavbar />
-      <CustomCard />
+      <Nav />
+      <Sectors />
     </Layout>
   );
 };

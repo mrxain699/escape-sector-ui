@@ -1,16 +1,43 @@
-import React, { useContext, useEffect } from "react";
-import { Container, Card, Table } from "react-bootstrap";
+import React, { useContext, useEffect, useState } from "react";
+import { Container, Card, Table, Alert } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faEdit } from "@fortawesome/free-solid-svg-icons";
 import { NavLink } from "react-router-dom";
 import { SectorContext } from "../../api/Sector";
-const CustomCard = () => {
-  const { getOfficialSector, officialSectors } = useContext(SectorContext);
+import AlertModal from "./AlertMOdal";
+const Sectors = () => {
+  const { getOfficialSector, officialSectors, deleteSector, alert } =
+    useContext(SectorContext);
+  const [showAlertModal, setShowAlertModal] = useState(false);
+  const [sectorId, setSectorId] = useState(null);
+  const onPressDelete = (id) => {
+    setSectorId(id);
+    setShowAlertModal(true);
+  };
+  const onPressCancel = () => setShowAlertModal(false);
+  const onPressModalDelete = () => {
+    deleteSector(sectorId);
+    getOfficialSector();
+    setShowAlertModal(false);
+  };
   useEffect(() => {
     getOfficialSector();
-  }, []);
+  }, [officialSectors]);
   return (
     <Container className="mt-5">
+      {alert && (
+        <Alert variant={alert.status}>
+          <p className="m-0 p-0">{alert.message}</p>
+        </Alert>
+      )}
+      {showAlertModal && (
+        <AlertModal
+          show={showAlertModal}
+          handleCancel={onPressCancel}
+          handleDelete={onPressModalDelete}
+        />
+      )}
+
       <Card>
         <Card.Header>
           <h3 className="m-0 p-0">Offical Map Sectors </h3>
@@ -22,7 +49,7 @@ const CustomCard = () => {
           </NavLink>
         </Card.Header>
         <Card.Body>
-          <Table bordered responsive>
+          <Table bordered responsive hover>
             <thead>
               <tr>
                 <th>#</th>
@@ -30,9 +57,10 @@ const CustomCard = () => {
                 <th>Duration</th>
                 <th>Distance</th>
                 <th>Location</th>
-                <th>Tasks</th>
                 <th>Difficulty</th>
-                <th>Action</th>
+                <th>Tasks</th>
+                <th>Edit</th>
+                <th>Delete</th>
               </tr>
             </thead>
             <tbody>
@@ -46,18 +74,27 @@ const CustomCard = () => {
                     <td>
                       {sector.location.latitude}, {sector.location.longitude}
                     </td>
-                    <td>Tasks</td>
                     <td>{sector.difficulty}</td>
+                    <td className="text-center">
+                      {" "}
+                      <NavLink
+                        to={`/tasks/${sector._id}`}
+                        className="btn bg-primary text-light"
+                      >
+                        Tasks
+                      </NavLink>
+                    </td>
                     <td className="d-flex gap-4 align-items-center justify-content-center">
-                      <FontAwesomeIcon
-                        icon={faEdit}
-                        color="green"
-                        className="icon"
-                      />
+                      <NavLink to="/" className="btn btn-success">
+                        Edit
+                      </NavLink>
+                    </td>
+                    <td className="text-center">
                       <FontAwesomeIcon
                         icon={faTrash}
                         className="icon"
                         color="#ff0004"
+                        onClick={() => onPressDelete(sector._id)}
                       />
                     </td>
                   </tr>
@@ -70,4 +107,4 @@ const CustomCard = () => {
   );
 };
 
-export default CustomCard;
+export default Sectors;

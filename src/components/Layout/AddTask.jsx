@@ -28,7 +28,7 @@ const INITIAL_FIELDS = {
   image: "",
 };
 
-const AddTaskForm = ({ sectorData, handleToggle, reset }) => {
+const AddTask = ({ sectorData, handleToggle, reset }) => {
   const { loggedInUser } = useContext(AuthContext);
   const { add_sector } = useContext(SectorContext);
   const [validated, setValidated] = useState(false);
@@ -264,4 +264,4 @@ const AddTaskForm = ({ sectorData, handleToggle, reset }) => {
   );
 };
 
-export default AddTaskForm;
+export default AddTask;
