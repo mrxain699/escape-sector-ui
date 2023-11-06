@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
-const AlertModal = ({ show, handleCancel, handleDelete }) => {
+const AlertModal = ({ heading, show, handleCancel, handleDelete }) => {
   return (
     <Modal show={show} onHide={handleCancel}>
       <Modal.Header>
-        <Modal.Title>Delete Sector</Modal.Title>
+        <Modal.Title>{heading}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <h3>Are you sure?</h3>

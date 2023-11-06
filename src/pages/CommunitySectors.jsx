@@ -3,13 +3,13 @@ import Nav from "../components/Layout/Nav";
 import Sectors from "../components/Layout/Sectors";
 import Layout from "../components/Layout/Layout";
 
-const Dashboard = () => {
+const CommunitySectors = () => {
   return (
     <Layout>
       <Nav />
-      <Sectors type="Official" official={true} />
+      <Sectors type="Community" official={false} />
     </Layout>
   );
 };
 
-export default Dashboard;
+export default CommunitySectors;

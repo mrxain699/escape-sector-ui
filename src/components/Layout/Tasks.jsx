@@ -1,19 +1,52 @@
-import React, { useContext, useEffect } from "react";
-import { Container, Card, Table } from "react-bootstrap";
+import React, { useContext, useEffect, useState } from "react";
+import { Container, Card, Table, Alert } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faEdit } from "@fortawesome/free-solid-svg-icons";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { NavLink } from "react-router-dom";
 import { SectorContext } from "../../api/Sector";
+import AlertModal from "./AlertModal";
 const Task = ({ id }) => {
-  const { getSectorTasks, sectorTasks } = useContext(SectorContext);
+  const { getSectorTasks, sectorTasks, deleteTask, alert } =
+    useContext(SectorContext);
+  const [showAlertModal, setShowAlertModal] = useState(false);
+  const [taskId, setTaskId] = useState(null);
+  const onPressDelete = (task_id) => {
+    setTaskId(task_id);
+    setShowAlertModal(true);
+  };
+  const onPressCancel = () => setShowAlertModal(false);
+  const onPressModalDelete = () => {
+    deleteTask(id, taskId);
+    getSectorTasks(id);
+    setShowAlertModal(false);
+  };
   useEffect(() => {
     getSectorTasks(id);
-  }, []);
+  }, [sectorTasks]);
   return (
     <Container className="mt-5">
+      {alert && (
+        <Alert variant={alert.status}>
+          <p className="m-0 p-0">{alert.message}</p>
+        </Alert>
+      )}
+      {showAlertModal && (
+        <AlertModal
+          heading="Delete Task"
+          show={showAlertModal}
+          handleCancel={onPressCancel}
+          handleDelete={onPressModalDelete}
+        />
+      )}
       <Card>
         <Card.Header>
           <h3 className="m-0 p-0">Sectors Tasks</h3>
+          <NavLink
+            to={`/add-task/${id}`}
+            className="custom-btn add-sector-link bg-primary"
+          >
+            Add Task
+          </NavLink>
         </Card.Header>
         <Card.Body>
           <Table bordered responsive hover>
@@ -42,7 +75,10 @@ const Task = ({ id }) => {
                     </td>
                     <td>{task.message}</td>
                     <td className="text-center">
-                      <NavLink to="/" className="btn btn-success ">
+                      <NavLink
+                        to={`/edit-task/${id}/${task._id}`}
+                        className="btn btn-success "
+                      >
                         Edit
                       </NavLink>
                     </td>
@@ -51,6 +87,7 @@ const Task = ({ id }) => {
                         icon={faTrash}
                         className="icon"
                         color="#ff0004"
+                        onClick={() => onPressDelete(task._id)}
                       />
                     </td>
                   </tr>

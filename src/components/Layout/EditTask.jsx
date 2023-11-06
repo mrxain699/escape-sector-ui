@@ -1,39 +1,25 @@
 import React, { useState, useContext } from "react";
-import {
-  Container,
-  Card,
-  Form,
-  Row,
-  Col,
-  Button,
-  Alert,
-} from "react-bootstrap";
+import { Container, Card, Form, Row, Col, Button } from "react-bootstrap";
 import InputField from "../Form/InputField";
 import CustomButton from "../Form/CustomButon";
 import Feedback from "../Form/Feedback";
-import { AuthContext } from "../../api/Auth";
 import { SectorContext } from "../../api/Sector";
-import { getFormattedData, getTaskFormatedData } from "../../utils/Functions";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowAltCircleLeft } from "@fortawesome/free-solid-svg-icons";
+import { getFormattedData } from "../../utils/Functions";
 
-const INITIAL_FIELDS = {
-  title: "",
-  question: "",
-  answer: "",
-  hints: "",
-  latitude: "",
-  longitude: "",
-  message: "",
-  image: "",
-};
-
-const AddTask = ({ sectorData, reset, handleToggle, sector_id, official }) => {
-  const { loggedInUser } = useContext(AuthContext);
-  const { add_sector, add_task, alert } = useContext(SectorContext);
+const EditTaskForm = ({ task, sector_id, navigate }) => {
+  const INITIAL_FIELDS = {
+    title: task.title || "",
+    question: task.question || "",
+    answer: task.answer || "",
+    hints: task.hints.join("\n") || "",
+    latitude: task.location.latitude || "",
+    longitude: task.location.longitude || "",
+    message: task.message || "",
+    image: task.image || "",
+  };
+  const { update_task } = useContext(SectorContext);
   const [validated, setValidated] = useState(false);
   const [taskFormData, setTaskFormData] = useState(INITIAL_FIELDS);
-  const [successMessage, setSuccessMessage] = useState(null);
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -66,36 +52,14 @@ const AddTask = ({ sectorData, reset, handleToggle, sector_id, official }) => {
       taskFormData.latitude &&
       taskFormData.longitude &&
       taskFormData.message &&
-      taskFormData.hints.length > 0
+      taskFormData.hints
     ) {
-      if (sectorData) {
-        sectorData.tasks.push(taskFormData);
-        setTaskFormData(INITIAL_FIELDS);
-        setSuccessMessage("Task added successfully!");
-        setTimeout(() => {
-          setSuccessMessage(null);
-        }, 5000);
-      } else {
-        const data = getTaskFormatedData(taskFormData, sector_id);
-        add_task(data);
-        setTaskFormData(INITIAL_FIELDS);
-      }
+      update_task(sector_id, task._id, taskFormData);
+      navigate(`/tasks/${sector_id}`, { replace: true });
+      setTaskFormData(INITIAL_FIELDS);
     } else {
       setValidated(true);
     }
-  };
-
-  const save_sector = () => {
-    console.log(sectorData);
-    const data = getFormattedData(sectorData, official);
-    const formated_sector_data = {
-      ...data,
-      creator: loggedInUser._id,
-    };
-    add_sector(formated_sector_data);
-    setTaskFormData(INITIAL_FIELDS);
-    reset();
-    handleToggle();
   };
 
   return (
@@ -109,26 +73,8 @@ const AddTask = ({ sectorData, reset, handleToggle, sector_id, official }) => {
       <Container className="pb-5">
         <Card className="mt-5 px-4">
           <Card.Header style={{ justifyContent: "flex-start" }}>
-            {sectorData && (
-              <FontAwesomeIcon
-                icon={faArrowAltCircleLeft}
-                color="#000000"
-                className="icon"
-                onClick={handleToggle}
-              />
-            )}
-            <h3 className={`m-0 p-0 ${sectorData && "mx - 3"}`}>
-              Add Sector Tasks
-            </h3>
+            <h3 className="m-0 p-0 mx-3">Edit Sector Tasks</h3>
           </Card.Header>
-          {(successMessage || alert) && (
-            <Alert variant={alert ? alert.status : "success"}>
-              <p className="m-0 p-0">
-                {alert ? alert.message : "Task added successfully!"}
-              </p>
-            </Alert>
-          )}
-
           <Row className="m-0 p-0  mb-4 mt-3">
             <Col sm={12} lg={3} xl={3} className="mb-md-4 mb-sm-4">
               <InputField
@@ -261,16 +207,7 @@ const AddTask = ({ sectorData, reset, handleToggle, sector_id, official }) => {
           </Row>
           <Row className="m-0 p-0 mb-4">
             <Col className="d-flex justify-content-between gap-2">
-              <CustomButton type="submit" text={"Add Task"} />
-              {sectorData && (
-                <Button
-                  type="button"
-                  onClick={save_sector}
-                  disabled={sectorData.tasks.length > 0 ? false : true}
-                >
-                  Save Sector
-                </Button>
-              )}
+              <CustomButton type={"submit"} text={"Update Task"} />
             </Col>
           </Row>
         </Card>
@@ -279,4 +216,4 @@ const AddTask = ({ sectorData, reset, handleToggle, sector_id, official }) => {
   );
 };
 
-export default AddTask;
+export default EditTaskForm;

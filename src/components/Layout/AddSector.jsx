@@ -23,7 +23,7 @@ const INITIAL_FIELDS = {
   tasks: [],
 };
 
-const AddSectorForm = () => {
+const AddSectorForm = ({ official }) => {
   const { alert } = useContext(SectorContext);
   const [validated, setValidated] = useState(false);
   const [displayTaskForm, setDisplayTaskForm] = useState(false);
@@ -51,6 +51,10 @@ const AddSectorForm = () => {
     ) {
       setDisplaySectorForm(false);
       setDisplayTaskForm(true);
+      setFormData({
+        ...formData,
+        tasks: [],
+      });
     } else {
       setValidated(true);
     }
@@ -82,7 +86,7 @@ const AddSectorForm = () => {
             )}
             <Card className="px-4">
               <Card.Header>
-                <h3 className="m-0 p-0">Add Official Sector</h3>
+                <h3 className="m-0 p-0">Add Sector</h3>
               </Card.Header>
               <Row className="m-0 p-0  mb-4 mt-3">
                 <Col sm={12} lg={4} xl={4} className="mb-md-4 mb-sm-4">
@@ -207,8 +211,9 @@ const AddSectorForm = () => {
       {displayTaskForm && (
         <AddTask
           sectorData={formData}
+          reset
           handleToggle={toggleSectorForm}
-          reset={reset}
+          official={official}
         />
       )}
     </Container>

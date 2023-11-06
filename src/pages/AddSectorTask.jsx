@@ -1,16 +1,16 @@
 import React from "react";
 import Layout from "../components/Layout/Layout";
 import Nav from "../components/Layout/Nav";
-import AddSectorForm from "../components/Layout/AddSector";
+import AddTask from "../components/Layout/AddTask";
 import { useParams } from "react-router-dom";
-const AddSector = () => {
-  const { official } = useParams();
+const AddSectorTask = () => {
+  const { sectorId } = useParams();
   return (
     <Layout>
       <Nav />
-      <AddSectorForm official={official} />
+      <AddTask sector_id={sectorId} />
     </Layout>
   );
 };
 
-export default AddSector;
+export default AddSectorTask;

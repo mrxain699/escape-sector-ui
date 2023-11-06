@@ -126,7 +126,9 @@ button{
 .nav-link{
   font-size: 1.8rem;
   font-weight: 500;
+  margin-left: 15px;
 }
+
 
 .navbar-text{
   font-size: 1.6rem;
