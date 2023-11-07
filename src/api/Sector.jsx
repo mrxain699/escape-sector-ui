@@ -7,6 +7,7 @@ const Sector = ({ children }) => {
   const [sectorTasks, setSectorTasks] = useState([]);
   const [sector, setSector] = useState(null);
   const [task, setTask] = useState(null);
+  const [loading, setIsLoading] = useState(false);
 
   const getSectorById = async (sector_id) => {
     try {
@@ -20,12 +21,14 @@ const Sector = ({ children }) => {
           status: "danger",
           message: response.data.message,
         });
+        setTimeout(() => setAlert(null), 3000);
       }
     } catch (error) {
       setAlert({
         status: "danger",
         message: "Unable to get sector",
       });
+      setTimeout(() => setAlert(null), 3000);
     }
   };
 
@@ -41,33 +44,42 @@ const Sector = ({ children }) => {
           status: "danger",
           message: response.data.message,
         });
+        setTimeout(() => setAlert(null), 3000);
       }
     } catch (error) {
       setAlert({
         status: "danger",
         message: "Unable to get sector task",
       });
+      setTimeout(() => setAlert(null), 3000);
     }
   };
 
   const getSectors = async (official) => {
     try {
+      setIsLoading(true);
       const response = await axios.get(
         `${import.meta.env.VITE_API_URL}/sectors/${official}`
       );
       if (response.data.status === "success") {
+        setIsLoading(false);
         setSectors(response.data.sectors);
       } else {
+        setIsLoading(false);
         setAlert({
           status: "danger",
           message: response.data.message,
         });
+        setTimeout(() => setAlert(null), 3000);
+        setSectors([]);
       }
     } catch (error) {
+      setIsLoading(false);
       setAlert({
         status: "danger",
         message: "Unable to get sectors",
       });
+      setTimeout(() => setAlert(null), 3000);
     }
   };
 
@@ -87,12 +99,14 @@ const Sector = ({ children }) => {
           status: "danger",
           message: response.data.message,
         });
+        setTimeout(() => setAlert(null), 3000);
       }
     } catch (error) {
       setAlert({
         status: "danger",
         message: "Unable to add sector",
       });
+      setTimeout(() => setAlert(null), 3000);
     }
   };
 
@@ -128,6 +142,7 @@ const Sector = ({ children }) => {
         status: "danger",
         message: "Unable to update sector",
       });
+      setTimeout(() => setAlert(null), 3000);
     }
   };
 
@@ -147,12 +162,14 @@ const Sector = ({ children }) => {
           status: "danger",
           message: response.data.message,
         });
+        setTimeout(() => setAlert(null), 3000);
       }
     } catch (error) {
       setAlert({
         status: "danger",
         message: "Unable to add task",
       });
+      setTimeout(() => setAlert(null), 3000);
     }
   };
 
@@ -190,6 +207,7 @@ const Sector = ({ children }) => {
         status: "danger",
         message: "Unable to update task",
       });
+      setTimeout(() => setAlert(null), 3000);
     }
   };
 
@@ -205,21 +223,25 @@ const Sector = ({ children }) => {
           status: "danger",
           message: response.data.message,
         });
+        setTimeout(() => setAlert(null), 3000);
       }
     } catch (error) {
       setAlert({
         status: "danger",
         message: "Unable to get sector tasks",
       });
+      setTimeout(() => setAlert(null), 3000);
+      setSectorTasks([]);
     }
   };
 
-  const deleteSector = async (sector_id) => {
+  const deleteSector = async (sector_id, official) => {
     try {
       const response = await axios.delete(
         `${import.meta.env.VITE_API_URL}/delete-sector/${sector_id}`
       );
       if (response.data.status === "success") {
+        getSectors(official);
         setAlert(response.data);
         setTimeout(() => setAlert(null), 3000);
       } else {
@@ -227,12 +249,14 @@ const Sector = ({ children }) => {
           status: "danger",
           message: response.data.message,
         });
+        setTimeout(() => setAlert(null), 3000);
       }
     } catch (error) {
       setAlert({
         status: "danger",
         message: "Unable to delete sector",
       });
+      setTimeout(() => setAlert(null), 3000);
     }
   };
 
@@ -242,6 +266,7 @@ const Sector = ({ children }) => {
         `${import.meta.env.VITE_API_URL}/delete-task/${sector_id}/${task_id}`
       );
       if (response.data.status === "success") {
+        getSectorTasks(sector_id);
         setAlert(response.data);
         setTimeout(() => setAlert(null), 3000);
       } else if (response.data.status === "failed") {
@@ -256,6 +281,7 @@ const Sector = ({ children }) => {
         status: "danger",
         message: "Unable to delete task",
       });
+      setTimeout(() => setAlert(null), 3000);
     }
   };
 
@@ -276,6 +302,7 @@ const Sector = ({ children }) => {
     task,
     update_task,
     add_task,
+    loading,
   };
   return (
     <SectorContext.Provider value={value}>{children}</SectorContext.Provider>

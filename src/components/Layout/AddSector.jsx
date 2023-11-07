@@ -110,7 +110,9 @@ const AddSectorForm = ({ official }) => {
                     name={"duration"}
                     id={"duration"}
                     placeholder={"Enter duration in minutes e:g 60"}
-                    error={"Duration is required"}
+                    error={
+                      "Duration is required and should be a positive number"
+                    }
                     value={formData.duration}
                     handleChange={handleChange}
                   />
@@ -123,7 +125,9 @@ const AddSectorForm = ({ official }) => {
                     name={"distance"}
                     id={"distance"}
                     placeholder={"Enter distance in Km e:g 2"}
-                    error={"Distance is required"}
+                    error={
+                      "Distance is required and should be a positive number"
+                    }
                     value={formData.distance}
                     handleChange={handleChange}
                   />
@@ -159,7 +163,9 @@ const AddSectorForm = ({ official }) => {
                     name={"latitude"}
                     id={"latitude"}
                     placeholder={"Enter latitude of location"}
-                    error={"Sector Latitude is required"}
+                    error={
+                      "Sector Latitude is required and should be a decimal number"
+                    }
                     value={formData.latitude}
                     handleChange={handleChange}
                   />
@@ -172,7 +178,9 @@ const AddSectorForm = ({ official }) => {
                     name={"longitude"}
                     id={"longitude"}
                     placeholder={"Enter longitude of location"}
-                    error={"Sector longitude is required"}
+                    error={
+                      "Sector longitude is required and shoudld be a decimal number"
+                    }
                     value={formData.longitude}
                     handleChange={handleChange}
                   />
@@ -211,7 +219,7 @@ const AddSectorForm = ({ official }) => {
       {displayTaskForm && (
         <AddTask
           sectorData={formData}
-          reset
+          reset={reset}
           handleToggle={toggleSectorForm}
           official={official}
         />

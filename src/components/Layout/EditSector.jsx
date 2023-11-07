@@ -38,9 +38,12 @@ const EditSectorForm = ({ sector, navigate }) => {
       formData.longitude
     ) {
       update_sector(sector._id, formData);
-      navigate("/dashboard", { replace: true });
+      if (sector.official) {
+        navigate("/dashboard", { replace: true });
+      } else {
+        navigate("/community-sector", { replace: true });
+      }
     } else {
-      console.log(formData);
       setValidated(true);
     }
   };

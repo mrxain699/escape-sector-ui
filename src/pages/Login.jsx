@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Container, Form, Alert } from "react-bootstrap";
 import Label from "../components/Form/Label";
 import Input from "../components/Form/Input";
@@ -8,7 +8,7 @@ import { AuthContext } from "../api/Auth.jsx";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const { authenticate, errorMessage } = useContext(AuthContext);
+  const { authenticate, errorMessage, loginToken } = useContext(AuthContext);
   const [validated, setValidated] = useState(false);
   const [formData, setFormData] = useState({
     username: "",
@@ -28,7 +28,9 @@ const Login = () => {
     e.preventDefault();
     if (formData.username && formData.password) {
       authenticate(formData)
-        .then(() => navigate("/dashboard", { replace: true }))
+        .then(() => {
+          navigate("/dashboard", { replace: true });
+        })
         .catch((error) => {
           console.log(error);
         });

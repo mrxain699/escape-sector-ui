@@ -3,6 +3,7 @@ import axios from "axios";
 export const AuthContext = createContext();
 
 const Auth = ({ children }) => {
+  const [loginToken, setLoginToken] = useState(localStorage.getItem("token"));
   const [loggedInUser, setLoggedInUser] = useState({});
   const [errorMessage, seterrorMessage] = useState(null);
 
@@ -39,6 +40,7 @@ const Auth = ({ children }) => {
           seterrorMessage(response.data.message);
         } else {
           localStorage.setItem("token", response.data.token);
+          setLoginToken(response.data.token);
           seterrorMessage(null);
         }
       }
@@ -52,6 +54,7 @@ const Auth = ({ children }) => {
       const token = localStorage.getItem("token");
       if (token) {
         localStorage.removeItem("token");
+        setLoginToken(null);
       }
     } catch (error) {
       console.log("Logout Error", error);
@@ -59,6 +62,8 @@ const Auth = ({ children }) => {
   };
 
   const value = {
+    loginToken,
+    setLoginToken,
     getLoggedInUser,
     loggedInUser,
     authenticate,

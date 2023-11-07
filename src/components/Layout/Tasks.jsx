@@ -17,12 +17,11 @@ const Task = ({ id }) => {
   const onPressCancel = () => setShowAlertModal(false);
   const onPressModalDelete = () => {
     deleteTask(id, taskId);
-    getSectorTasks(id);
     setShowAlertModal(false);
   };
   useEffect(() => {
     getSectorTasks(id);
-  }, [sectorTasks]);
+  }, []);
   return (
     <Container className="mt-5">
       {alert && (

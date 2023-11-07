@@ -1,28 +1,28 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Container, Card, Table, Alert, Spinner } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faEdit } from "@fortawesome/free-solid-svg-icons";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { NavLink } from "react-router-dom";
 import { SectorContext } from "../../api/Sector";
 import AlertModal from "./AlertModal";
 const Sectors = ({ type, official }) => {
-  const { getSectors, sectors, deleteSector, alert } =
+  const { getSectors, sectors, deleteSector, alert, loading } =
     useContext(SectorContext);
   const [showAlertModal, setShowAlertModal] = useState(false);
   const [sectorId, setSectorId] = useState(null);
+  const [fetchSector, setFetchSector] = useState(true);
   const onPressDelete = (id) => {
     setSectorId(id);
     setShowAlertModal(true);
   };
   const onPressCancel = () => setShowAlertModal(false);
   const onPressModalDelete = () => {
-    deleteSector(sectorId);
-    getSectors(official);
+    deleteSector(sectorId, official);
     setShowAlertModal(false);
   };
   useEffect(() => {
     getSectors(official);
-  }, [sectors]);
+  }, []);
   return (
     <Container className="mt-5">
       {alert && (
@@ -46,7 +46,7 @@ const Sectors = ({ type, official }) => {
             to={`/add-sector/${official}`}
             className="custom-btn add-sector-link bg-primary"
           >
-            Add Sector
+            Add {type} Sector
           </NavLink>
         </Card.Header>
         <Card.Body>
@@ -106,12 +106,12 @@ const Sectors = ({ type, official }) => {
                   ))}
               </tbody>
             </Table>
-          ) : alert && alert.message === "Sectors not found" ? (
-            alert.message
-          ) : (
+          ) : loading ? (
             <div className="text-center">
               <Spinner animation="border" role="status"></Spinner>
             </div>
+          ) : (
+            <p className="nav-link">No Sector Found</p>
           )}
         </Card.Body>
       </Card>

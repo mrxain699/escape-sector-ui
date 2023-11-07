@@ -117,9 +117,7 @@ const AddTask = ({ sectorData, reset, handleToggle, sector_id, official }) => {
                 onClick={handleToggle}
               />
             )}
-            <h3 className={`m-0 p-0 ${sectorData && "mx - 3"}`}>
-              Add Sector Tasks
-            </h3>
+            <h3 className={`m-0 p-0 mx-3`}>Add Sector Tasks</h3>
           </Card.Header>
           {(successMessage || alert) && (
             <Alert variant={alert ? alert.status : "success"}>
@@ -151,7 +149,7 @@ const AddTask = ({ sectorData, reset, handleToggle, sector_id, official }) => {
                 name={"latitude"}
                 id={"latitude"}
                 placeholder={"Enter latitude of task location"}
-                error={"Task location latitude is required"}
+                error={"Latitude is required and should be a decimal number"}
                 value={taskFormData.latitude}
                 handleChange={handleChange}
               />
@@ -164,7 +162,7 @@ const AddTask = ({ sectorData, reset, handleToggle, sector_id, official }) => {
                 name={"longitude"}
                 id={"longitude"}
                 placeholder={"Enter longitude of task location"}
-                error={"Task location longitude is required"}
+                error={"Longitude is required and should be a decimal number"}
                 value={taskFormData.longitude}
                 handleChange={handleChange}
               />
