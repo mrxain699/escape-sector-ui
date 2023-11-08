@@ -61,7 +61,7 @@ const EditSectorForm = ({ sector, navigate }) => {
             <Card.Header>
               <h3 className="m-0 p-0">Update Official Sector</h3>
             </Card.Header>
-            <Row className="m-0 p-0  mb-4 mt-3">
+            <Row className="m-0 p-0  mt-3">
               <Col sm={12} lg={4} xl={4} className="mb-md-4 mb-sm-4">
                 <InputField
                   htmlFor={"title"}
@@ -102,7 +102,7 @@ const EditSectorForm = ({ sector, navigate }) => {
                 />
               </Col>
             </Row>
-            <Row className="m-0 p-0  mb-4">
+            <Row className="m-0 p-0 ">
               <Col sm={12} lg={4} xl={4} className="mb-md-4 mb-sm-4">
                 <Form.Group>
                   <Form.Label htmlFor="difficulty" as={"label"}>

@@ -75,7 +75,7 @@ const EditTaskForm = ({ task, sector_id, navigate }) => {
           <Card.Header style={{ justifyContent: "flex-start" }}>
             <h3 className="m-0 p-0 mx-3">Edit Sector Tasks</h3>
           </Card.Header>
-          <Row className="m-0 p-0  mb-4 mt-3">
+          <Row className="m-0 p-0 mt-3">
             <Col sm={12} lg={3} xl={3} className="mb-md-4 mb-sm-4">
               <InputField
                 htmlFor={"title"}
@@ -129,7 +129,7 @@ const EditTaskForm = ({ task, sector_id, navigate }) => {
               />
             </Col>
           </Row>
-          <Row className="m-0 p-0 mb-4">
+          <Row className="m-0 p-0 ">
             <Col sm={12} lg={6} xl={6} className="mb-md-4 mb-sm-4">
               <Form.Group>
                 <Form.Label htmlFor="question">Task Question</Form.Label>
