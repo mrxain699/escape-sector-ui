@@ -56,7 +56,7 @@ const EditSectorForm = ({ sector, navigate }) => {
         validated={validated}
         onSubmit={handleSubmit}
       >
-        <Container className="pb-5">
+        <Container className="pb-5 card-container">
           <Card className="px-4">
             <Card.Header>
               <h3 className="m-0 p-0">Update Official Sector</h3>

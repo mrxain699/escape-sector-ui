@@ -70,7 +70,7 @@ const EditTaskForm = ({ task, sector_id, navigate }) => {
       onSubmit={handleSubmit}
       encType="multipart/form-data"
     >
-      <Container className="pb-5">
+      <Container className="pb-5 card-container">
         <Card className="mt-5 px-4">
           <Card.Header style={{ justifyContent: "flex-start" }}>
             <h3 className="m-0 p-0 mx-3">Edit Sector Tasks</h3>

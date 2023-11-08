@@ -70,7 +70,7 @@ const AddSectorForm = ({ official }) => {
   };
 
   return (
-    <Container className="mt-5 mb-5">
+    <Container className="mt-5 mb-5 card-container">
       {displaySectorForm && (
         <Form
           className="w-100 mt-3"

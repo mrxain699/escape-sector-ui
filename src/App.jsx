@@ -14,7 +14,16 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={!loginToken && <Login />} />
+        <Route
+          path="/"
+          element={
+            !loginToken ? (
+              <Login />
+            ) : (
+              <Navigate to="/dashboard" replace={true} />
+            )
+          }
+        />
         <Route
           path="/dashboard"
           element={

@@ -24,7 +24,7 @@ const Sectors = ({ type, official }) => {
     getSectors(official);
   }, []);
   return (
-    <Container className="mt-5">
+    <Container className="mt-5 card-container">
       {alert && (
         <Alert variant={alert.status}>
           <p className="m-0 p-0">{alert.message}</p>
@@ -46,7 +46,7 @@ const Sectors = ({ type, official }) => {
             to={`/add-sector/${official}`}
             className="custom-btn add-sector-link bg-primary"
           >
-            Add {type} Sector
+            Add Sector
           </NavLink>
         </Card.Header>
         <Card.Body>

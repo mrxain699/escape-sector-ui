@@ -106,7 +106,7 @@ const AddTask = ({ sectorData, reset, handleToggle, sector_id, official }) => {
       onSubmit={handleSubmit}
       encType="multipart/form-data"
     >
-      <Container className="pb-5">
+      <Container className="pb-5 card-container">
         <Card className="mt-5 px-4">
           <Card.Header style={{ justifyContent: "flex-start" }}>
             {sectorData && (

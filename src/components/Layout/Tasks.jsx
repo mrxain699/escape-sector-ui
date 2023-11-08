@@ -23,7 +23,7 @@ const Task = ({ id }) => {
     getSectorTasks(id);
   }, []);
   return (
-    <Container className="mt-5">
+    <Container className="mt-5 card-container">
       {alert && (
         <Alert variant={alert.status}>
           <p className="m-0 p-0">{alert.message}</p>
