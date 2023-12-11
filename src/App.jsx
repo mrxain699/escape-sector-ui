@@ -17,11 +17,7 @@ function App() {
         <Route
           path="/"
           element={
-            !loginToken ? (
-              <Login />
-            ) : (
-              <Navigate to="/dashboard" replace={true} />
-            )
+            loginToken ? <Navigate to="/dashboard" replace={true} /> : <Login />
           }
         />
         <Route

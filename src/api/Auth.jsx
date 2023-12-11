@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import { createContext, useState } from "react";
 import axios from "axios";
 export const AuthContext = createContext();
 
@@ -6,6 +6,7 @@ const Auth = ({ children }) => {
   const [loginToken, setLoginToken] = useState(localStorage.getItem("token"));
   const [loggedInUser, setLoggedInUser] = useState({});
   const [errorMessage, seterrorMessage] = useState(null);
+  const [loader, setLoader] = useState(false);
 
   const getLoggedInUser = async () => {
     try {
@@ -29,6 +30,7 @@ const Auth = ({ children }) => {
 
   const authenticate = async (data) => {
     try {
+      setLoader(true);
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/auth`,
         {
@@ -38,13 +40,16 @@ const Auth = ({ children }) => {
       if (response) {
         if (response.data.status === "Failed") {
           seterrorMessage(response.data.message);
+          setLoader(false);
         } else {
           localStorage.setItem("token", response.data.token);
           setLoginToken(response.data.token);
+          setLoader(false);
           seterrorMessage(null);
         }
       }
     } catch (error) {
+      setLoader(false);
       console.log("Login Error", error);
     }
   };
@@ -70,6 +75,7 @@ const Auth = ({ children }) => {
     errorMessage,
     seterrorMessage,
     logout,
+    loader,
   };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

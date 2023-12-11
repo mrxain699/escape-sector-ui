@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import { createContext, useState } from "react";
 import axios from "axios";
 export const SectorContext = createContext();
 const Sector = ({ children }) => {
@@ -58,6 +58,7 @@ const Sector = ({ children }) => {
   const getSectors = async (official) => {
     try {
       setIsLoading(true);
+      setSectors([]);
       const response = await axios.get(
         `${import.meta.env.VITE_API_URL}/sectors/${official}`
       );
@@ -213,12 +214,16 @@ const Sector = ({ children }) => {
 
   const getSectorTasks = async (sector_id) => {
     try {
+      setIsLoading(true);
+      setSectorTasks([]);
       const response = await axios.get(
         `${import.meta.env.VITE_API_URL}/tasks/${sector_id}`
       );
       if (response.data.status === "success") {
         setSectorTasks(response.data.sector_tasks);
+        setIsLoading(true);
       } else {
+        setIsLoading(true);
         setAlert({
           status: "danger",
           message: response.data.message,
@@ -226,12 +231,12 @@ const Sector = ({ children }) => {
         setTimeout(() => setAlert(null), 3000);
       }
     } catch (error) {
+      setIsLoading(true);
       setAlert({
         status: "danger",
         message: "Unable to get sector tasks",
       });
       setTimeout(() => setAlert(null), 3000);
-      setSectorTasks([]);
     }
   };
 

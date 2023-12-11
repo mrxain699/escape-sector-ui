@@ -10,7 +10,6 @@ const Sectors = ({ type, official }) => {
     useContext(SectorContext);
   const [showAlertModal, setShowAlertModal] = useState(false);
   const [sectorId, setSectorId] = useState(null);
-  const [fetchSector, setFetchSector] = useState(true);
   const onPressDelete = (id) => {
     setSectorId(id);
     setShowAlertModal(true);
@@ -78,7 +77,6 @@ const Sectors = ({ type, official }) => {
                       </td>
                       <td>{sector.difficulty}</td>
                       <td className="text-center">
-                        {" "}
                         <NavLink
                           to={`/tasks/${sector._id}`}
                           className="btn bg-primary text-light"

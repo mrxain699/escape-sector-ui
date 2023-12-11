@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { Container, Navbar, Button, Nav } from "react-bootstrap";
 import { AuthContext } from "../../api/Auth";
 import { NavLink } from "react-router-dom";
@@ -11,19 +11,22 @@ const Navs = () => {
   return (
     <Navbar expand="lg">
       <Container className="navbar-container">
-        <a href="/dashboard" className="navbar-brand">
+        <NavLink to="/dashboard" className="navbar-brand">
           Escape Sector
-        </a>
+        </NavLink>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse
           id="basic-navbar-nav"
           className="pb-sm-2 pb-lg-0 pb-md-0 "
           style={{ zIndex: 999, backgroundColor: "#fff" }}
         >
-          <Nav className="w-100">
-            <a href="/community-sector" className="nav-link">
+          <Nav className="w-100 d-flex align-items-center ">
+            <NavLink
+              to="/community-sector"
+              className="nav-link btn btn-lg bg-light px-4 py-3"
+            >
               Community Sector
-            </a>
+            </NavLink>
             <Navbar.Text className="ms-auto me-3">
               Welcome, {loggedInUser.username}
             </Navbar.Text>

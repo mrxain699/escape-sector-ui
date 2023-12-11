@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Container, Card, Table, Alert } from "react-bootstrap";
+import { Container, Card, Table, Alert, Spinner } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { NavLink } from "react-router-dom";
 import { SectorContext } from "../../api/Sector";
 import AlertModal from "./AlertModal";
 const Task = ({ id }) => {
-  const { getSectorTasks, sectorTasks, deleteTask, alert } =
+  const { getSectorTasks, sectorTasks, deleteTask, alert, loading } =
     useContext(SectorContext);
   const [showAlertModal, setShowAlertModal] = useState(false);
   const [taskId, setTaskId] = useState(null);
@@ -48,51 +48,59 @@ const Task = ({ id }) => {
           </NavLink>
         </Card.Header>
         <Card.Body>
-          <Table bordered responsive hover>
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Title</th>
-                <th>Question</th>
-                <th>Answer</th>
-                <th>Location</th>
-                <th>Message</th>
-                <th>Edit</th>
-                <th>Delete</th>
-              </tr>
-            </thead>
-            <tbody>
-              {sectorTasks.length > 0 &&
-                sectorTasks.map((task, index) => (
-                  <tr key={index}>
-                    <td>{index + 1}</td>
-                    <td>{task.title}</td>
-                    <td>{task.question}</td>
-                    <td>{task.answer}</td>
-                    <td>
-                      {task.location.latitude}, {task.location.longitude}
-                    </td>
-                    <td>{task.message}</td>
-                    <td className="text-center">
-                      <NavLink
-                        to={`/edit-task/${id}/${task._id}`}
-                        className="btn btn-success "
-                      >
-                        Edit
-                      </NavLink>
-                    </td>
-                    <td className="text-center">
-                      <FontAwesomeIcon
-                        icon={faTrash}
-                        className="icon"
-                        color="#ff0004"
-                        onClick={() => onPressDelete(task._id)}
-                      />
-                    </td>
-                  </tr>
-                ))}
-            </tbody>
-          </Table>
+          {sectorTasks.length > 0 ? (
+            <Table bordered responsive hover>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Title</th>
+                  <th>Question</th>
+                  <th>Answer</th>
+                  <th>Location</th>
+                  <th>Message</th>
+                  <th>Edit</th>
+                  <th>Delete</th>
+                </tr>
+              </thead>
+              <tbody>
+                {sectorTasks.length > 0 &&
+                  sectorTasks.map((task, index) => (
+                    <tr key={index}>
+                      <td>{index + 1}</td>
+                      <td>{task.title}</td>
+                      <td>{task.question}</td>
+                      <td>{task.answer}</td>
+                      <td>
+                        {task.location.latitude}, {task.location.longitude}
+                      </td>
+                      <td>{task.message}</td>
+                      <td className="text-center">
+                        <NavLink
+                          to={`/edit-task/${id}/${task._id}`}
+                          className="btn btn-success "
+                        >
+                          Edit
+                        </NavLink>
+                      </td>
+                      <td className="text-center">
+                        <FontAwesomeIcon
+                          icon={faTrash}
+                          className="icon"
+                          color="#ff0004"
+                          onClick={() => onPressDelete(task._id)}
+                        />
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </Table>
+          ) : loading ? (
+            <div className="text-center">
+              <Spinner animation="border" role="status"></Spinner>
+            </div>
+          ) : (
+            <p className="nav-link">No Sector Tasks Found</p>
+          )}
         </Card.Body>
       </Card>
     </Container>
