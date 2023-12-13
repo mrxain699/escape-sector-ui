@@ -1,12 +1,16 @@
-import { createContext, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import axios from "axios";
+import { AuthContext } from "./Auth";
 export const SectorContext = createContext();
 const Sector = ({ children }) => {
+  const { loader, setLoader } = useContext(AuthContext);
   const [alert, setAlert] = useState(null);
   const [sectors, setSectors] = useState([]);
   const [sectorTasks, setSectorTasks] = useState([]);
+  const [sectorQuests, setSectorQuests] = useState([]);
   const [sector, setSector] = useState(null);
   const [task, setTask] = useState(null);
+  const [quest, setQuest] = useState(null);
   const [loading, setIsLoading] = useState(false);
 
   const getSectorById = async (sector_id) => {
@@ -39,6 +43,31 @@ const Sector = ({ children }) => {
       );
       if (response.data.status === "success") {
         setTask(response.data.task);
+      } else {
+        setAlert({
+          status: "danger",
+          message: response.data.message,
+        });
+        setTimeout(() => setAlert(null), 3000);
+      }
+    } catch (error) {
+      setAlert({
+        status: "danger",
+        message: "Unable to get sector task",
+      });
+      setTimeout(() => setAlert(null), 3000);
+    }
+  };
+
+  const getSectorQuestById = async (quest_id) => {
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/sidequest/${quest_id}`
+      );
+      console.log(response.data);
+      if (response.data.status === "success") {
+        console.log(response.data.quest);
+        setQuest(response.data.quest);
       } else {
         setAlert({
           status: "danger",
@@ -223,7 +252,7 @@ const Sector = ({ children }) => {
         setSectorTasks(response.data.sector_tasks);
         setIsLoading(true);
       } else {
-        setIsLoading(true);
+        setIsLoading(false);
         setAlert({
           status: "danger",
           message: response.data.message,
@@ -231,10 +260,103 @@ const Sector = ({ children }) => {
         setTimeout(() => setAlert(null), 3000);
       }
     } catch (error) {
-      setIsLoading(true);
+      setIsLoading(false);
       setAlert({
         status: "danger",
         message: "Unable to get sector tasks",
+      });
+      setTimeout(() => setAlert(null), 3000);
+    }
+  };
+
+  const add_quest = async (data, sector_id) => {
+    try {
+      setLoader(true);
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/sidequest`,
+        {
+          ...data,
+          mission_id: sector_id,
+        }
+      );
+      if (response.data.status === "success") {
+        setLoader(false);
+        setAlert(response.data);
+        setTimeout(() => setAlert(null), 3000);
+      } else {
+        setLoader(false);
+        setAlert({
+          status: "danger",
+          message: response.data.message,
+        });
+        setTimeout(() => setAlert(null), 3000);
+      }
+    } catch (error) {
+      setLoader(false);
+      setAlert({
+        status: "danger",
+        message: "Unable to add task",
+      });
+      setTimeout(() => setAlert(null), 3000);
+    }
+  };
+
+  const update_quest = async (sector_id, quest_id, data) => {
+    const updated_data = {
+      ...data,
+      quest_id: quest_id,
+      mission_id: sector_id,
+    };
+    try {
+      const response = await axios.put(
+        `${import.meta.env.VITE_API_URL}/sidequest/update`,
+        {
+          ...updated_data,
+        }
+      );
+      if (response.data.status === "success") {
+        setAlert(response.data);
+        setQuest(null);
+        setTimeout(() => setAlert(null), 3000);
+      } else {
+        setAlert({
+          status: "danger",
+          message: response.data.message,
+        });
+        setTimeout(() => setAlert(null), 3000);
+      }
+    } catch (error) {
+      setAlert({
+        status: "danger",
+        message: "Unable to update task",
+      });
+      setTimeout(() => setAlert(null), 3000);
+    }
+  };
+
+  const getSectorQuests = async (sector_id) => {
+    try {
+      setIsLoading(true);
+      setSectorQuests([]);
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/sidequests/${sector_id}`
+      );
+      if (response.data.status === "success") {
+        setSectorQuests(response.data.sector_quests);
+        setIsLoading(true);
+      } else {
+        setIsLoading(false);
+        setAlert({
+          status: "danger",
+          message: response.data.message,
+        });
+        setTimeout(() => setAlert(null), 3000);
+      }
+    } catch (error) {
+      setIsLoading(false);
+      setAlert({
+        status: "danger",
+        message: error.message,
       });
       setTimeout(() => setAlert(null), 3000);
     }
@@ -290,6 +412,31 @@ const Sector = ({ children }) => {
     }
   };
 
+  const deleteQuest = async (sector_id, quest_id) => {
+    try {
+      const response = await axios.delete(
+        `${import.meta.env.VITE_API_URL}/sidequest/delete/${quest_id}`
+      );
+      if (response.data.status === "success") {
+        getSectorQuests(sector_id);
+        setAlert(response.data);
+        setTimeout(() => setAlert(null), 3000);
+      } else if (response.data.status === "failed") {
+        setAlert({
+          status: "danger",
+          message: response.data.message,
+        });
+        setTimeout(() => setAlert(null), 3000);
+      }
+    } catch (error) {
+      setAlert({
+        status: "danger",
+        message: "Unable to delete quest",
+      });
+      setTimeout(() => setAlert(null), 3000);
+    }
+  };
+
   const value = {
     add_sector,
     alert,
@@ -308,6 +455,13 @@ const Sector = ({ children }) => {
     update_task,
     add_task,
     loading,
+    sectorQuests,
+    getSectorQuests,
+    add_quest,
+    deleteQuest,
+    getSectorQuestById,
+    update_quest,
+    quest,
   };
   return (
     <SectorContext.Provider value={value}>{children}</SectorContext.Provider>

@@ -76,6 +76,7 @@ const Auth = ({ children }) => {
     seterrorMessage,
     logout,
     loader,
+    setLoader,
   };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

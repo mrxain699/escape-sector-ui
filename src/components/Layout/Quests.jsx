@@ -1,29 +1,27 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Container, Card, Table, Alert, Spinner } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { NavLink } from "react-router-dom";
 import { SectorContext } from "../../api/Sector";
 import AlertModal from "./AlertModal";
-import { AuthContext } from "../../api/Auth";
-const Sectors = ({ type, official }) => {
-  const { getSectors, sectors, deleteSector, alert, loading } =
+const Quest = ({ id }) => {
+  const { getSectorQuests, sectorQuests, deleteQuest, alert, loading } =
     useContext(SectorContext);
-  const { loginToken } = useContext(AuthContext);
   const [showAlertModal, setShowAlertModal] = useState(false);
-  const [sectorId, setSectorId] = useState(null);
-  const onPressDelete = (id) => {
-    setSectorId(id);
+  const [questId, setQuestId] = useState(null);
+  const onPressDelete = (quest_Id) => {
+    setQuestId(quest_Id);
     setShowAlertModal(true);
   };
   const onPressCancel = () => setShowAlertModal(false);
   const onPressModalDelete = () => {
-    deleteSector(sectorId, official);
+    deleteQuest(id, questId);
     setShowAlertModal(false);
   };
   useEffect(() => {
-    getSectors(official);
-  }, [loginToken]);
+    getSectorQuests(id);
+  }, []);
   return (
     <Container className="mt-5 card-container">
       {alert && (
@@ -33,72 +31,47 @@ const Sectors = ({ type, official }) => {
       )}
       {showAlertModal && (
         <AlertModal
-          heading="Delete Sector"
+          heading="Delete Task"
           show={showAlertModal}
           handleCancel={onPressCancel}
           handleDelete={onPressModalDelete}
         />
       )}
-
       <Card>
         <Card.Header>
-          <h3 className="m-0 p-0">{type} Sectors </h3>
+          <h3 className="m-0 p-0">Sectors Side Quests</h3>
           <NavLink
-            to={`/add-sector/${official}`}
+            to={`/add-quest/${id}`}
             className="custom-btn add-sector-link bg-primary"
           >
-            Add Sector
+            Add Side Quest
           </NavLink>
         </Card.Header>
         <Card.Body>
-          {sectors.length > 0 ? (
+          {sectorQuests.length > 0 ? (
             <Table bordered responsive hover>
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>Title</th>
-                  <th>Duration</th>
-                  <th>Distance</th>
-                  <th>Location</th>
-                  <th>Difficulty</th>
-                  <th>Tasks</th>
-                  <th>Quests</th>
+                  <th>Question</th>
+                  <th>Answer</th>
+                  <th>Options</th>
                   <th>Edit</th>
                   <th>Delete</th>
                 </tr>
               </thead>
               <tbody>
-                {sectors.length > 0 &&
-                  sectors.map((sector, index) => (
+                {sectorQuests.length > 0 &&
+                  sectorQuests.map((quest, index) => (
                     <tr key={index}>
                       <td>{index + 1}</td>
-                      <td>{sector.title}</td>
-                      <td>{sector.duration} M</td>
-                      <td>{sector.distance} Km</td>
-                      <td>
-                        {sector.location.latitude}, {sector.location.longitude}
-                      </td>
-                      <td>{sector.difficulty}</td>
+                      <td>{quest.question}</td>
+                      <td>{quest.answer}</td>
+                      <td>{quest.options.join(", ")}</td>
                       <td className="text-center">
                         <NavLink
-                          to={`/tasks/${sector._id}`}
-                          className="btn bg-primary text-light"
-                        >
-                          Tasks
-                        </NavLink>
-                      </td>
-                      <td className="text-center">
-                        <NavLink
-                          to={`/quests/${sector._id}`}
-                          className="btn bg-secondary text-light"
-                        >
-                          Quests
-                        </NavLink>
-                      </td>
-                      <td className="d-flex gap-4 align-items-center justify-content-center">
-                        <NavLink
-                          to={`/edit-sector/${sector._id}`}
-                          className="btn btn-success"
+                          to={`/edit-quest/${id}/${quest._id}`}
+                          className="btn btn-success "
                         >
                           Edit
                         </NavLink>
@@ -108,7 +81,7 @@ const Sectors = ({ type, official }) => {
                           icon={faTrash}
                           className="icon"
                           color="#ff0004"
-                          onClick={() => onPressDelete(sector._id)}
+                          onClick={() => onPressDelete(quest._id)}
                         />
                       </td>
                     </tr>
@@ -120,7 +93,7 @@ const Sectors = ({ type, official }) => {
               <Spinner animation="border" role="status"></Spinner>
             </div>
           ) : (
-            <p className="nav-link">No Sector Found</p>
+            <p className="nav-link">No Side Quests Found</p>
           )}
         </Card.Body>
       </Card>
@@ -128,4 +101,4 @@ const Sectors = ({ type, official }) => {
   );
 };
 
-export default Sectors;
+export default Quest;
