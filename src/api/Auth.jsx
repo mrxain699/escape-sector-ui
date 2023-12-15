@@ -5,7 +5,7 @@ export const AuthContext = createContext();
 const Auth = ({ children }) => {
   const [loginToken, setLoginToken] = useState(localStorage.getItem("token"));
   const [isTokenExpired, setIsTokenExpired] = useState(false);
-  const [loggedInUser, setLoggedInUser] = useState({});
+  const [loggedInUser, setLoggedInUser] = useState({ username: "" });
   const [errorMessage, seterrorMessage] = useState(null);
   const [loader, setLoader] = useState(false);
 
