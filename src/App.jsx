@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
@@ -13,26 +13,34 @@ import EditTask from "./pages/EditTask";
 import EditQuest from "./pages/EditQuest";
 import { AuthContext } from "./api/Auth";
 function App() {
-  const { loginToken } = useContext(AuthContext);
+  const { loginToken, isTokenExpired } = useContext(AuthContext);
   return (
     <BrowserRouter>
       <Routes>
         <Route
           path="/"
           element={
-            loginToken ? <Navigate to="/dashboard" replace={true} /> : <Login />
+            loginToken && !isTokenExpired ? (
+              <Navigate to="/dashboard" replace={true} />
+            ) : (
+              <Login />
+            )
           }
         />
         <Route
           path="/dashboard"
           element={
-            loginToken ? <Dashboard /> : <Navigate to="/" replace={true} />
+            loginToken && !isTokenExpired ? (
+              <Dashboard />
+            ) : (
+              <Navigate to="/" replace={true} />
+            )
           }
         />
         <Route
           path="/community-sector"
           element={
-            loginToken ? (
+            loginToken && !isTokenExpired ? (
               <CommunitySectors />
             ) : (
               <Navigate to="/" replace={true} />
@@ -42,45 +50,81 @@ function App() {
         <Route
           path="/add-sector/:official"
           element={
-            loginToken ? <AddSector /> : <Navigate to="/" replace={true} />
+            loginToken && !isTokenExpired ? (
+              <AddSector />
+            ) : (
+              <Navigate to="/" replace={true} />
+            )
           }
         />
         <Route
           path="/edit-sector/:sectorId"
           element={
-            loginToken ? <EditSector /> : <Navigate to="/" replace={true} />
+            loginToken && !isTokenExpired ? (
+              <EditSector />
+            ) : (
+              <Navigate to="/" replace={true} />
+            )
           }
         />
         <Route
           path="/tasks/:sectorId"
-          element={loginToken ? <Tasks /> : <Navigate to="/" replace={true} />}
+          element={
+            loginToken && !isTokenExpired ? (
+              <Tasks />
+            ) : (
+              <Navigate to="/" replace={true} />
+            )
+          }
         />
         <Route
           path="/quests/:sectorId"
-          element={loginToken ? <Quests /> : <Navigate to="/" replace={true} />}
+          element={
+            loginToken && !isTokenExpired ? (
+              <Quests />
+            ) : (
+              <Navigate to="/" replace={true} />
+            )
+          }
         />
         <Route
           path="/add-task/:sectorId"
           element={
-            loginToken ? <AddSectorTask /> : <Navigate to="/" replace={true} />
+            loginToken && !isTokenExpired ? (
+              <AddSectorTask />
+            ) : (
+              <Navigate to="/" replace={true} />
+            )
           }
         />
         <Route
           path="/add-quest/:sectorId"
           element={
-            loginToken ? <AddSectorQuest /> : <Navigate to="/" replace={true} />
+            loginToken && !isTokenExpired ? (
+              <AddSectorQuest />
+            ) : (
+              <Navigate to="/" replace={true} />
+            )
           }
         />
         <Route
           path="/edit-task/:sectorId/:taskId"
           element={
-            loginToken ? <EditTask /> : <Navigate to="/" replace={true} />
+            loginToken && !isTokenExpired ? (
+              <EditTask />
+            ) : (
+              <Navigate to="/" replace={true} />
+            )
           }
         />
         <Route
           path="/edit-quest/:sectorId/:questId"
           element={
-            loginToken ? <EditQuest /> : <Navigate to="/" replace={true} />
+            loginToken && !isTokenExpired ? (
+              <EditQuest />
+            ) : (
+              <Navigate to="/" replace={true} />
+            )
           }
         />
       </Routes>

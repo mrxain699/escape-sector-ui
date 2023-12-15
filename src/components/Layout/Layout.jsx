@@ -10,7 +10,7 @@ const Layout = ({ children }) => {
     getUser();
   }, []);
   return (
-    loggedInUser.hasOwnProperty("username") && (
+    loggedInUser.username && (
       <Container fluid={true} className="layout_container p-0">
         {children}
       </Container>
