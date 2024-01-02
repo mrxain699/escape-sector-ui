@@ -1,37 +1,40 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500&display=swap');
-:root{
-  --white:#ffffff;
-  --black:#000000;
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500&display=swap");
+:root {
+  --white: #ffffff;
+  --black: #000000;
 }
-*, html{
-  margin:0;
+*,
+html {
+  margin: 0;
   padding: 0;
-  font-size: 62.50%;
+  font-size: 62.5%;
   position: relative;
   box-sizing: border-box;
 }
 
-body{
+body {
   width: 100%;
   color: var(--black) !important;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   background-color: #fdfdfd;
 }
 
-p{
+p {
   font-size: 1.4rem;
 }
 
-h1{
+h1 {
   font-size: 3rem;
 }
 
-th, td{
+th,
+td {
   font-size: 1.6rem;
 }
 
-.login_container{
-  background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('./assets/images/oslo.jpg');
+.login_container {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+    url("./assets/images/oslo.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -41,7 +44,7 @@ th, td{
   justify-content: center;
 }
 
-.login_form{
+.login_form {
   width: 350px;
   height: auto;
   border-radius: 5px;
@@ -49,16 +52,17 @@ th, td{
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background-color: rgba(255,255,255,0.8);
+  background-color: rgba(255, 255, 255, 0.8);
 }
 
-label{
+label {
   font-size: 1.4rem;
   font-weight: 400;
 }
 
-input, select{
-  height:40px;
+input,
+select {
+  height: 40px;
   width: 100%;
   font-size: 1.4rem !important;
 }
@@ -69,84 +73,85 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
-input::file-selector-button{
+input::file-selector-button {
   height: 100% !important;
 }
 
-input::placeholder, select, textarea::placeholder{
+input::placeholder,
+select,
+textarea::placeholder {
   font-size: 1.2rem !important;
   font-weight: 400 !important;
 }
 
-option{
+option {
   font-size: 1.6rem !important;
 }
 
-textarea{
+textarea {
   resize: none;
   font-size: 1.4rem !important;
 }
 
-small{
+small {
   font-size: 1.2rem;
 }
 
-button{
+button {
   font-size: 1.6rem !important;
-  height:3.5rem;
+  height: 3.5rem;
 }
 
-.field_error{
+.field_error {
   font-size: 1rem;
 }
 
-.layout_container{
-  height:auto;
+.layout_container {
+  height: auto;
   min-height: 100vh;
   padding-bottom: 20px;
 }
 
-.navbar{
-  height:70px;
+.navbar {
+  height: 70px;
   background-color: var(--white);
-  box-shadow: 0px 2px 5px 0 rgba(0,0,0,0.1);
+  box-shadow: 0px 2px 5px 0 rgba(0, 0, 0, 0.1);
 }
 
-.navbar-container{
+.navbar-container {
   height: 100%;
   display: flex;
   align-items: center;
 }
 
-.navbar-brand{
+.navbar-brand {
   font-weight: 700;
   font-size: 2.4rem;
 }
 
-.nav-link{
+.nav-link {
   font-size: 1.8rem;
   font-weight: 500;
   margin-left: 15px;
 }
 
-
-.navbar-text{
+.navbar-text {
   font-size: 1.6rem;
 }
 
-.card-header{
+.card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   background-color: var(--white);
-  height:50px;
+  height: 50px;
 }
 
-.card-header h3{
+.card-header h3 {
   font-weight: 500;
 }
 
-.custom-btn{
+.custom-btn {
   text-decoration: none;
   color: var(--white);
   font-size: 1.6rem;
@@ -154,16 +159,47 @@ button{
   border-radius: 5px;
 }
 
-.icon{
+.icon {
   font-size: 1.8rem;
   cursor: pointer;
 }
 
+.lock-btn {
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  line-height: 10px !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-inline: auto !important;
+  gap: 5px;
+  padding-inline: 10px !important;
+  color: var(--white);
+  font-size: 1.8rem !important;
+  font-weight: 500;
+  height: 30px !important;
+  width: 70px;
+}
+
+.locked {
+  background-color: #ff0004;
+}
+.unlocked {
+  background-color: #1a831a;
+}
+
+.form-check {
+  margin-left: 20px !important;
+}
+
 @media screen and (max-width: 768px) {
-  .card-container{
+  .card-container {
     margin-top: 10px !important;
   }
-  input, select, textarea{
+  input,
+  select,
+  textarea {
     margin-bottom: 10px !important;
   }
 }

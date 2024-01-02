@@ -13,16 +13,19 @@ const EditSectorForm = ({ sector, navigate }) => {
     duration: sector.duration || "",
     latitude: sector.location.latitude || "",
     longitude: sector.location.longitude || "",
+    price: sector.price || 0,
+    locked: sector.locked || false,
   };
   const { update_sector } = useContext(SectorContext);
   const [validated, setValidated] = useState(false);
   const [formData, setFormData] = useState(INITIAL_FIELDS);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, checked, type } = e.target;
+    const newValue = type === "checkbox" ? checked : value;
     setFormData({
       ...formData,
-      [name]: value,
+      [name]: newValue,
     });
   };
 
@@ -35,7 +38,8 @@ const EditSectorForm = ({ sector, navigate }) => {
       formData.distance &&
       formData.duration &&
       formData.latitude &&
-      formData.longitude
+      formData.longitude &&
+      formData.price >= 0
     ) {
       update_sector(sector._id, formData);
       if (sector.official) {
@@ -103,7 +107,7 @@ const EditSectorForm = ({ sector, navigate }) => {
               </Col>
             </Row>
             <Row className="m-0 p-0 ">
-              <Col sm={12} lg={4} xl={4} className="mb-md-4 mb-sm-4">
+              <Col sm={12} lg={3} xl={3} className="mb-md-4 mb-sm-4">
                 <Form.Group>
                   <Form.Label htmlFor="difficulty" as={"label"}>
                     Difficulty Level
@@ -124,7 +128,7 @@ const EditSectorForm = ({ sector, navigate }) => {
                   />
                 </Form.Group>
               </Col>
-              <Col sm={12} lg={4} xl={4} className="mb-md-4 mb-sm-4">
+              <Col sm={12} lg={3} xl={3} className="mb-md-4 mb-sm-4">
                 <InputField
                   htmlFor={"latitude"}
                   text={"Sector Location Latitude"}
@@ -137,7 +141,7 @@ const EditSectorForm = ({ sector, navigate }) => {
                   handleChange={handleChange}
                 />
               </Col>
-              <Col sm={12} lg={4} xl={4} className="mb-md-4 mb-sm-4">
+              <Col sm={12} lg={3} xl={3} className="mb-md-4 mb-sm-4">
                 <InputField
                   htmlFor={"longitude"}
                   text={"Sector Location Longitude"}
@@ -147,6 +151,19 @@ const EditSectorForm = ({ sector, navigate }) => {
                   placeholder={"Enter longitude of location"}
                   error={"Sector longitude is required"}
                   value={formData.longitude}
+                  handleChange={handleChange}
+                />
+              </Col>
+              <Col sm={12} lg={3} xl={3} className="mb-md-4 mb-sm-4">
+                <InputField
+                  htmlFor={"Sector Price"}
+                  text={"Sector Price"}
+                  type={"number"}
+                  name={"price"}
+                  id={"price"}
+                  placeholder={"Enter Sector price"}
+                  error={"Sector price is not valid"}
+                  value={formData.price}
                   handleChange={handleChange}
                 />
               </Col>
@@ -167,6 +184,19 @@ const EditSectorForm = ({ sector, navigate }) => {
                   />
                   <Feedback type={"invalid"} text={"Message is required"} />
                 </Form.Group>
+              </Col>
+            </Row>
+            <Row className="m-0 p-0 mb-4">
+              <Col>
+                <Form.Check type={"checkbox"} id="checkbox">
+                  <Form.Check.Input
+                    type={"checkbox"}
+                    name="locked"
+                    checked={formData.locked}
+                    onChange={handleChange}
+                  />
+                  <Form.Check.Label>Sector Lock</Form.Check.Label>
+                </Form.Check>
               </Col>
             </Row>
             <Row className="m-0 p-0 mb-4">

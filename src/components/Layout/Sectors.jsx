@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Container, Card, Table, Alert, Spinner } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faTrash, faLock, faLockOpen } from "@fortawesome/free-solid-svg-icons";
 import { NavLink } from "react-router-dom";
 import { SectorContext } from "../../api/Sector";
 import AlertModal from "./AlertModal";
@@ -44,7 +44,7 @@ const Sectors = ({ type, official }) => {
         <Card.Header>
           <h3 className="m-0 p-0">{type} Sectors </h3>
           <NavLink
-            to={`/add-sector/${official}`}
+            to={`/add-sector/${type.toLowerCase()}`}
             className="custom-btn add-sector-link bg-primary"
           >
             Add Sector
@@ -61,8 +61,10 @@ const Sectors = ({ type, official }) => {
                   <th>Distance</th>
                   <th>Location</th>
                   <th>Difficulty</th>
+                  <th>Price</th>
                   <th>Tasks</th>
                   <th>Quests</th>
+                  <th>Locked</th>
                   <th>Edit</th>
                   <th>Delete</th>
                 </tr>
@@ -79,6 +81,7 @@ const Sectors = ({ type, official }) => {
                         {sector.location.latitude}, {sector.location.longitude}
                       </td>
                       <td>{sector.difficulty}</td>
+                      <td>{sector.price}</td>
                       <td className="text-center">
                         <NavLink
                           to={`/tasks/${sector._id}`}
@@ -95,7 +98,19 @@ const Sectors = ({ type, official }) => {
                           Quests
                         </NavLink>
                       </td>
-                      <td className="d-flex gap-4 align-items-center justify-content-center">
+                      <td className="text-center">
+                        <span
+                          className={`lock-btn ${
+                            sector.locked ? "locked" : "unlocked"
+                          }`}
+                        >
+                          <FontAwesomeIcon
+                            icon={sector.locked ? faLock : faLockOpen}
+                          />
+                          <span>{sector.locked ? "Locked" : "Unlock"}</span>
+                        </span>
+                      </td>
+                      <td className="text-center">
                         <NavLink
                           to={`/edit-sector/${sector._id}`}
                           className="btn btn-success"

@@ -48,7 +48,7 @@ function App() {
           }
         />
         <Route
-          path="/add-sector/:official"
+          path="/add-sector/:type"
           element={
             loginToken && !isTokenExpired ? (
               <AddSector />

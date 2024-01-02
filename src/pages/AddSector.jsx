@@ -4,11 +4,11 @@ import Navs from "../components/Layout/Nav";
 import AddSectorForm from "../components/Layout/AddSector";
 import { useParams } from "react-router-dom";
 const AddSector = () => {
-  const { official } = useParams();
+  const { type } = useParams();
   return (
     <Layout>
       <Navs />
-      <AddSectorForm official={official} />
+      <AddSectorForm official={type === "official" ? true : false} />
     </Layout>
   );
 };
